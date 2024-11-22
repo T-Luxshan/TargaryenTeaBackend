@@ -14,6 +14,7 @@ import jakarta.validation.constraints.NotBlank;
 @Data
 public class ProductRequest implements Serializable {
 
+    private Long id;
     @NotBlank(message = "Product name cannot be empty")
     @Size(min = 3, max = 50, message = "Product name must be between 3 and 50 characters")
     private String name;
