@@ -11,7 +11,7 @@ app.use(express.json())
 
 mongoose.connect('mongodb://localhost:27017/full-data')
 app.get('/', (req, res) => {
-    res.send('Welcome to the API');
+    res.send('EAD Backend');
 });
 
 app.post('/api/register', async (req, res) => {
