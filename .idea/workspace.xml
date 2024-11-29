@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d9850085-9fee-492f-94d8-33f11d8d1cb6" name="Changes" comment="gitignore updated">
+      <change afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/dto/OrderResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/dto/OrderDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/dto/OrderDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/dto/OrderLineItemsDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/dto/OrderLineItemsDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/entity/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/entity/OrderLineItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/OrderService/src/main/java/com/targrayentea/orderservice/entity/OrderLineItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProductService/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/target/classes/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="com.haulmont.jpb.NewClass" />
+        <option value="com.haulmont.jpb.JpaEntity" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2ovwkLL7Pldg0OgjpWhBvmA5fnV" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;order-service-Luxshan&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/lucky/Documents/Projects/EAD/TargaryenTeaBackend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.targrayentea.orderservice.dto" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.OrderServiceApplication">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="TargaryenTeaBackend" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="TargaryenTeaBackend" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrderServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="OrderService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.targrayentea.orderservice.OrderServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="ProductService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.targaryentea.productservice.ProductServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d9850085-9fee-492f-94d8-33f11d8d1cb6" name="Changes" comment="" />
+      <created>1731763499064</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1731763499064</updated>
+      <workItem from="1731763500087" duration="2025000" />
+      <workItem from="1731766235682" duration="135000" />
+      <workItem from="1731766407362" duration="6023000" />
+      <workItem from="1731860701886" duration="224000" />
+      <workItem from="1732072746738" duration="5670000" />
+      <workItem from="1732295688501" duration="3462000" />
+      <workItem from="1732424909909" duration="25000" />
+      <workItem from="1732439369918" duration="3595000" />
+      <workItem from="1732519389972" duration="3997000" />
+      <workItem from="1732534115049" duration="1125000" />
+      <workItem from="1732535256855" duration="297000" />
+      <workItem from="1732535567811" duration="6082000" />
+      <workItem from="1732555172998" duration="2941000" />
+      <workItem from="1732703273083" duration="595000" />
+      <workItem from="1732707379868" duration="1866000" />
+      <workItem from="1732709407039" duration="5158000" />
+      <workItem from="1732731444553" duration="2127000" />
+      <workItem from="1732767155523" duration="10575000" />
+    </task>
+    <task id="LOCAL-00001" summary="ProductService initiated.">
+      <option name="closed" value="true" />
+      <created>1731763613683</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1731763613683</updated>
+    </task>
+    <task id="LOCAL-00002" summary="DB connection">
+      <option name="closed" value="true" />
+      <created>1731765473441</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1731765473441</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Product entity created">
+      <option name="closed" value="true" />
+      <created>1731773261814</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1731773261814</updated>
+    </task>
+    <task id="LOCAL-00004" summary="config files">
+      <option name="closed" value="true" />
+      <created>1731773319980</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1731773319980</updated>
+    </task>
+    <task id="LOCAL-00005" summary="jakarta validation added">
+      <option name="closed" value="true" />
+      <created>1732096864421</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1732096864421</updated>
+    </task>
+    <task id="LOCAL-00006" summary="lombok builder added">
+      <option name="closed" value="true" />
+      <created>1732096940497</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1732096940497</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Product controller class added.">
+      <option name="closed" value="true" />
+      <created>1732096980119</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1732096980119</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Product repository added">
+      <option name="closed" value="true" />
+      <created>1732097002938</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1732097002938</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Product request DTO added">
+      <option name="closed" value="true" />
+      <created>1732097022763</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1732097022763</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Product Service created - create product">
+      <option name="closed" value="true" />
+      <created>1732097070220</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1732097070220</updated>
+    </task>
+    <task id="LOCAL-00011" summary="getAllProducts, deleteProduct, getProductById added">
+      <option name="closed" value="true" />
+      <created>1732300722320</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1732300722320</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Id added to the ProductRequest">
+      <option name="closed" value="true" />
+      <created>1732300830467</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1732300830467</updated>
+    </task>
+    <task id="LOCAL-00013" summary="OrderService initiated">
+      <option name="closed" value="true" />
+      <created>1732534199541</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1732534199541</updated>
+    </task>
+    <task id="LOCAL-00014" summary="test dependency added">
+      <option name="closed" value="true" />
+      <created>1732534814898</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1732534814898</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Configuration">
+      <option name="closed" value="true" />
+      <created>1732535088454</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1732535088454</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Configuration">
+      <option name="closed" value="true" />
+      <created>1732535444890</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1732535444890</updated>
+    </task>
+    <task id="LOCAL-00017" summary="application.properties for OrderService">
+      <option name="closed" value="true" />
+      <created>1732732492727</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1732732492727</updated>
+    </task>
+    <task id="LOCAL-00018" summary="gitignore">
+      <option name="closed" value="true" />
+      <created>1732732514469</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1732732514469</updated>
+    </task>
+    <task id="LOCAL-00019" summary="order entity created">
+      <option name="closed" value="true" />
+      <created>1732732553726</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1732732553726</updated>
+    </task>
+    <task id="LOCAL-00020" summary="OrderLineItems  entity created">
+      <option name="closed" value="true" />
+      <created>1732732600280</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1732732600280</updated>
+    </task>
+    <task id="LOCAL-00021" summary="OrderLineItems  entity created">
+      <option name="closed" value="true" />
+      <created>1732732665911</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1732732665911</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Order dto created">
+      <option name="closed" value="true" />
+      <created>1732732690435</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1732732690435</updated>
+    </task>
+    <task id="LOCAL-00023" summary="PlaceOrder Function">
+      <option name="closed" value="true" />
+      <created>1732732708000</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1732732708000</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Dependency updated">
+      <option name="closed" value="true" />
+      <created>1732732802093</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1732732802093</updated>
+    </task>
+    <task id="LOCAL-00025" summary="gitignore updated">
+      <option name="closed" value="true" />
+      <created>1732733153750</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1732733153750</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="ProductService initiated." />
+    <MESSAGE value="DB connection" />
+    <MESSAGE value="Product entity created" />
+    <MESSAGE value="config files" />
+    <MESSAGE value="jakarta validation added" />
+    <MESSAGE value="lombok builder added" />
+    <MESSAGE value="Product controller class added." />
+    <MESSAGE value="Product repository added" />
+    <MESSAGE value="Product request DTO added" />
+    <MESSAGE value="Product Service created - create product" />
+    <MESSAGE value="getAllProducts, deleteProduct, getProductById added" />
+    <MESSAGE value="Id added to the ProductRequest" />
+    <MESSAGE value="OrderService initiated" />
+    <MESSAGE value="test dependency added" />
+    <MESSAGE value="Configuration" />
+    <MESSAGE value="application.properties for OrderService" />
+    <MESSAGE value="gitignore" />
+    <MESSAGE value="order entity created" />
+    <MESSAGE value="OrderLineItems  entity created" />
+    <MESSAGE value="Order dto created" />
+    <MESSAGE value="PlaceOrder Function" />
+    <MESSAGE value="Dependency updated" />
+    <MESSAGE value="gitignore updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="gitignore updated" />
+  </component>
+</project>
