@@ -22,6 +22,10 @@ ProductService/.idea
 OrderService/.idea
 InventoryService/.idea
 
+ProductService/target
+OrderService/target
+InventoryService/target
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
