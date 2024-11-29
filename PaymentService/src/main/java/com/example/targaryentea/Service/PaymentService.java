@@ -44,7 +44,7 @@ public class PaymentService {
 
             SessionCreateParams.LineItem lineItem =
                     SessionCreateParams.LineItem.builder()
-                            .setQuantity((long) product.getQuantity()) // e.g., 2 items
+                            .setQuantity((long) product.getQuantity())
                             .setPriceData(priceData)
                             .build();
             lineItems.add(lineItem);
@@ -53,13 +53,14 @@ public class PaymentService {
                 SessionCreateParams.ShippingAddressCollection.builder()
                         .addAllowedCountry(SessionCreateParams.ShippingAddressCollection.AllowedCountry.US)
                         .addAllowedCountry(SessionCreateParams.ShippingAddressCollection.AllowedCountry.CA)
+                        .addAllowedCountry(SessionCreateParams.ShippingAddressCollection.AllowedCountry.SL)
                         .build();
 
         // Create ShippingAddressCollection
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:8080/success")
-                .setCancelUrl("http://localhost:8080/cancel")
+                .setSuccessUrl("http://localhost:3000/success")
+                .setCancelUrl("http://localhost:3000/reject")
                 .setShippingAddressCollection(shippingAddressCollection)
                 .addAllLineItem(lineItems)
                 .putMetadata("I agree with your terms of service", "true")

@@ -11,9 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 
 public class PaymentRequestDTO {
-//    private Long amount;
-//    private String currency;
-//    private Long quantity;
-//    private String name;
     private List<ProductDTO> products;
+    private String successURL;
+    private String rejectURL;
+
 }
