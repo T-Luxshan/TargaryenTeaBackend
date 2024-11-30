@@ -1,9 +1,6 @@
 package com.targrayentea.orderservice.service;
 
-import com.targrayentea.orderservice.dto.InventoryResponse;
-import com.targrayentea.orderservice.dto.OrderDTO;
-import com.targrayentea.orderservice.dto.OrderLineItemsDto;
-import com.targrayentea.orderservice.dto.OrderResponse;
+import com.targrayentea.orderservice.dto.*;
 import com.targrayentea.orderservice.entity.Order;
 import com.targrayentea.orderservice.entity.OrderLineItems;
 import com.targrayentea.orderservice.repository.OrderRepository;
@@ -43,16 +40,27 @@ public class OrderService {
             .userId(orderDTO.getUserId())
             .build();
 
-        List<String> skuCodes = order.getOrderLineItemsList()
-                                .stream()
-                                .map(OrderLineItems::getSkuCode)
-                                .toList();
+//        List<String> skuCodes = order.getOrderLineItemsList()
+//                                .stream()
+//                                .map(OrderLineItems::getSkuCode)
+//                                .toList();
+
+        List<InventoryRequest> inventoryRequests = order.getOrderLineItemsList()
+                .stream()
+                .map(OrderLineItems ->
+                    InventoryRequest.builder()
+                            .skuCode(OrderLineItems.getSkuCode())
+                            .quantity(OrderLineItems.getQuantity())
+                            .build()
+
+                )
+                .toList();
 
 
 //        Call inventory service, Place order only of product is in stock.
-        InventoryResponse[] inventoryResponses =  webClient.get()
-                .uri("http://localhost:8082/api/v1/inventory",
-                        uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
+        InventoryResponse[] inventoryResponses =  webClient.post()
+                .uri("http://localhost:8082/api/v1/inventory")
+                .bodyValue(inventoryRequests)
                 .retrieve()
                 .bodyToMono(InventoryResponse[].class)
                 .block();
