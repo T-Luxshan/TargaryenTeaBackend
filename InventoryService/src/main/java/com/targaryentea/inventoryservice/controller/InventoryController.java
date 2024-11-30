@@ -1,7 +1,7 @@
 package com.targaryentea.inventoryservice.controller;
 
+import com.targaryentea.inventoryservice.dto.InventoryRequest;
 import com.targaryentea.inventoryservice.dto.InventoryResponse;
-import com.targaryentea.inventoryservice.entity.Inventory;
 import com.targaryentea.inventoryservice.repository.InventoryRepository;
 import com.targaryentea.inventoryservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +18,8 @@ public class InventoryController {
     final private InventoryService inventoryService;
     private final InventoryRepository inventoryRepository;
 
-    @GetMapping
-    public ResponseEntity<List<InventoryResponse>> isInStock(@RequestParam List<String> skuCode){
-        return ResponseEntity.ok(inventoryService.isInStock(skuCode));
+    @PostMapping
+    public ResponseEntity<List<InventoryResponse>> isInStock(@RequestBody List<InventoryRequest> inventoryRequests){
+        return ResponseEntity.ok(inventoryService.isInStock(inventoryRequests));
     }
-
 }
