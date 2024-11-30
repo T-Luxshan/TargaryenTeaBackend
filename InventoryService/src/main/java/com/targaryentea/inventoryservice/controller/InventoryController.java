@@ -16,7 +16,6 @@ import java.util.List;
 public class InventoryController {
 
     final private InventoryService inventoryService;
-    private final InventoryRepository inventoryRepository;
 
     @PostMapping
     public ResponseEntity<List<InventoryResponse>> isInStock(@RequestBody List<InventoryRequest> inventoryRequests){
