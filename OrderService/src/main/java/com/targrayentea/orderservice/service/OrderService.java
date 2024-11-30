@@ -1,5 +1,6 @@
 package com.targrayentea.orderservice.service;
 
+import com.targrayentea.orderservice.dto.InventoryResponse;
 import com.targrayentea.orderservice.dto.OrderDTO;
 import com.targrayentea.orderservice.dto.OrderLineItemsDto;
 import com.targrayentea.orderservice.dto.OrderResponse;
@@ -9,10 +10,12 @@ import com.targrayentea.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final WebClient webClient;
 
     public OrderResponse placeOrder(OrderDTO orderDTO) {
 
@@ -39,14 +43,41 @@ public class OrderService {
             .userId(orderDTO.getUserId())
             .build();
 
-        orderRepository.save(order);
+        List<String> skuCodes = order.getOrderLineItemsList()
+                                .stream()
+                                .map(OrderLineItems::getSkuCode)
+                                .toList();
 
-        return OrderResponse.builder()
-                .status("success")
-                .message("Order placed successfully.")
-                .orderNumber(order.getOrderNumber())
-                .estimatedDelivery(now.plusDays(5).toLocalDate())
-                .build();
+
+//        Call inventory service, Place order only of product is in stock.
+        InventoryResponse[] inventoryResponses =  webClient.get()
+                .uri("http://localhost:8082/api/v1/inventory",
+                        uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
+                .retrieve()
+                .bodyToMono(InventoryResponse[].class)
+                .block();
+
+        boolean allProductStock = Arrays.stream(inventoryResponses)
+                .allMatch(InventoryResponse::isInStock);
+        if(allProductStock){
+            orderRepository.save(order);
+            return OrderResponse.builder()
+                    .status("success")
+                    .message("Order placed successfully.")
+                    .orderNumber(order.getOrderNumber())
+                    .estimatedDelivery(now.plusDays(5).toLocalDate())
+                    .build();
+        } else {
+            return OrderResponse.builder()
+                    .status("failed")
+                    .message("Order cannot be placed due to out of stock.")
+                    .orderNumber(order.getOrderNumber())
+                    .estimatedDelivery(null)
+                    .build();
+        }
+
+
+
     }
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
@@ -54,6 +85,7 @@ public class OrderService {
                 .price(orderLineItemsDto.getPrice())
                 .quantity(orderLineItemsDto.getQuantity())
                 .skuCode(orderLineItemsDto.getSkuCode())
+                .productName(orderLineItemsDto.getProductName())
                 .build();
         return orderLineItems;
     }
@@ -64,7 +96,7 @@ public class OrderService {
 //        ArrayList<OrderDTO> orderDTOS = new ArrayList<>();
 
         List<OrderDTO> orderDTOs = orders.stream()
-                .map(order -> mapToDto(order))
+                .map(this::mapToDto)
                 .collect(Collectors.toList());
 
         return orderDTOs;
