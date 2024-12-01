@@ -5,10 +5,12 @@ import com.targaryentea.productservice.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("api/v1/product")
@@ -19,10 +21,14 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<String> createProduct(@Valid @RequestBody ProductRequest productRequest){
-        return ResponseEntity.ok(productService.createProduct(productRequest));
+    public ResponseEntity<String> createProduct(@Valid @RequestBody ProductRequest productRequest) {
+        try {
+            return ResponseEntity.ok(productService.createProduct(productRequest));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error occur in creation");
+        }
     }
-
     @GetMapping
     public ResponseEntity<List<ProductRequest>> getAllProducts(){
         return ResponseEntity.ok(productService.getAllProducts());
