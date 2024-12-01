@@ -14,17 +14,10 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea/
+.idea
 *.iws
 *.iml
 *.ipr
-ProductService/.idea
-OrderService/.idea
-InventoryService/.idea
-
-ProductService/target
-OrderService/target
-InventoryService/target
 
 ### NetBeans ###
 /nbproject/private/
