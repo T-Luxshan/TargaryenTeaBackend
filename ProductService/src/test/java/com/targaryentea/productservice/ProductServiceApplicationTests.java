@@ -102,21 +102,20 @@ class ProductServiceApplicationTests {
     //03.Check Description
     @Test
     void CreateBadProductWithInvalidDescription() throws Exception {
-        ProductRequest invalidProductRequest = getBadProductWithInvalidDiscription();
+        ProductRequest invalidProductRequest = getBadProductWithInvalidDescription();
         String productRequestString = objectMapper.writeValueAsString(invalidProductRequest);
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/product")
                         .contentType("application/json")
                         .content(productRequestString))
                 .andExpect(status().isBadRequest()) // Expect 400 Bad Request
                 .andExpect(result -> {
-                    // Check if the response body contains the expected validation error for 'stock'
                     String responseBody = result.getResponse().getContentAsString();
                     assertTrue(responseBody.contains("Description must be between 10 and 500 characters"));
                 });
 
     }
 
-    private ProductRequest getBadProductWithInvalidDiscription() {
+    private ProductRequest getBadProductWithInvalidDescription() {
         return ProductRequest.builder()
                 .id(null)
                 .name("Tea")
