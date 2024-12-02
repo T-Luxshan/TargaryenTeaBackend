@@ -22,12 +22,8 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<String> createProduct(@Valid @RequestBody ProductRequest productRequest) {
-        try {
             return ResponseEntity.ok(productService.createProduct(productRequest));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error occur in creation");
-        }
+
     }
     @GetMapping
     public ResponseEntity<List<ProductRequest>> getAllProducts(){

@@ -16,9 +16,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -43,8 +43,8 @@ class ProductServiceApplicationTests {
         dynamicPropertyRegistry.add("spring.datasource.username",mySQLContainer::getUsername);
         dynamicPropertyRegistry.add("spring.datasource.password",mySQLContainer::getPassword);
     }
-    //-----------------------------------------------------CREATE PRODUCT------------------------------------------
-
+    //---------------------------------------------------CREATE PRODUCT------------------------------------------
+    //01.Valid Product request
     @Test
     void CreateProduct() throws Exception {
         ProductRequest validProductRequest=getProductRequest();
@@ -65,26 +65,112 @@ class ProductServiceApplicationTests {
                 .image_url("http://example.com/image.jpg")
                 .build();
     }
-//    @Test
-//    void CreateBadProductStock() throws Exception {
-//        ProductRequest invalidProductRequest=getBadProductRequestStock();
-//        String productRequestString =objectMapper.writeValueAsString(invalidProductRequest);
-//        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/product")
-//                        .contentType("application/json")
-//                        .content(productRequestString))
-//                .andExpect(status().isBadRequest());
-////        Assertions.assertTrue(productRepository.findAll().size()==1);
-//    }
-//    private ProductRequest getBadProductRequestStock() {
-//        return ProductRequest.builder()
-//                .id(null)
-//                .name("Tea")
-//                .stock(-10)
-//                .description("Import from China")
-//                .price(100.0)
-//                .image_url("http://example.com/image.jpg")
-//                .build();
-//    }
+    //02.Check with missing parameter
+    @Test
+    void CreateBadProductWithNullName() throws Exception {
+        ProductRequest invalidProductRequest=getBadProductWithNullName();
+        String productRequestString =objectMapper.writeValueAsString(invalidProductRequest);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/product")
+                        .contentType("application/json")
+                        .content(productRequestString))
+                .andExpect(status().isBadRequest()) // Expect 400 Bad Request
+                .andExpect(result -> {
+                    // Check for specific validation error message
+                    String responseBody = result.getResponse().getContentAsString();
+                    assertTrue(responseBody.contains("Product name cannot be empty"));
+                });
+              }
+    private ProductRequest getBadProductWithNullName() {
+        return ProductRequest.builder()
+                .id(null)
+                .name(null)
+                .stock(10)
+                .description("Import from China")
+                .price(100.0)
+                .image_url("http://example.com/image.jpg")
+                .build();
+    }
+    //03.Check Description
+    @Test
+    void CreateBadProductWithInvalidDescription() throws Exception {
+        ProductRequest invalidProductRequest=getBadProductWithInvalidDiscription();
+        String productRequestString =objectMapper.writeValueAsString(invalidProductRequest);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/product")
+                        .contentType("application/json")
+                        .content(productRequestString))
+                .andExpect(status().isBadRequest()) // Expect 400 Bad Request
+                .andExpect(result -> {
+                    // Check if the response body contains the expected validation error for 'stock'
+                    String responseBody = result.getResponse().getContentAsString();
+                    assertTrue(responseBody.contains("Description must be between 10 and 500 characters"));
+                });
+
+    }
+    private ProductRequest getBadProductWithInvalidDiscription() {
+        return ProductRequest.builder()
+                .id(null)
+                .name("Tea")
+                .stock(10)
+                .description("China")
+                .price(100.0)
+                .image_url("http://example.com/image.jpg")
+                .build();
+    }
+
+    //04.Check Price
+    @Test
+    void CreateBadProductWithInvalidPrice() throws Exception {
+        ProductRequest invalidProductRequest=getBadProductWithInvalidPrice();
+        String productRequestString =objectMapper.writeValueAsString(invalidProductRequest);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/product")
+                        .contentType("application/json")
+                        .content(productRequestString))
+                .andExpect(status().isBadRequest()) // Expect 400 Bad Request
+                .andExpect(result -> {
+                    // Check if the response body contains the expected validation error for 'stock'
+                    String responseBody = result.getResponse().getContentAsString();
+                    assertTrue(responseBody.contains("Price must be greater than 0"));
+                });
+
+    }
+    private ProductRequest getBadProductWithInvalidPrice() {
+        return ProductRequest.builder()
+                .id(null)
+                .name("Tea")
+                .stock(10)
+                .description("Import from China")
+                .price(-10)
+                .image_url("http://example.com/image.jpg")
+                .build();
+    }
+
+    //03.Check Stock
+    @Test
+    void CreateBadProductWithInvalidStock() throws Exception {
+        ProductRequest invalidProductRequest=getBadProductWithInvalidStock();
+        String productRequestString =objectMapper.writeValueAsString(invalidProductRequest);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/product")
+                        .contentType("application/json")
+                        .content(productRequestString))
+                .andExpect(status().isBadRequest()) // Expect 400 Bad Request
+                .andExpect(result -> {
+                    // Check if the response body contains the expected validation error for 'stock'
+                    String responseBody = result.getResponse().getContentAsString();
+                    assertTrue(responseBody.contains("Stock cannot be negative"));
+                });
+
+    }
+    private ProductRequest getBadProductWithInvalidStock() {
+        return ProductRequest.builder()
+                .id(null)
+                .name("Tea")
+                .stock(-10)
+                .description("Import from China")
+                .price(100.0)
+                .image_url("http://example.com/image.jpg")
+                .build();
+    }
+//-----------------------------------------------------ALL PRODUCT------------------------------------------
 
 }
 @Configuration
