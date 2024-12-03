@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/product")
+@RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
 public class ProductController {
 
     @Autowired
     private final ProductService productService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<String> createProduct(@Valid @RequestBody ProductRequest productRequest){
         return ResponseEntity.ok(productService.createProduct(productRequest));
     }
