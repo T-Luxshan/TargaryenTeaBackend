@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
 
     public OrderResponse placeOrder(OrderDTO orderDTO) {
 
@@ -58,8 +58,8 @@ public class OrderService {
 
 
 //        Call inventory service, Place order only of product is in stock.
-        InventoryResponse[] inventoryResponses =  webClient.post()
-                .uri("http://localhost:8082/api/v1/inventory")
+        InventoryResponse[] inventoryResponses =  webClientBuilder.build().post()
+                .uri("http://inventory-service/api/v1/inventory")
                 .bodyValue(inventoryRequests)
                 .retrieve()
                 .bodyToMono(InventoryResponse[].class)
