@@ -41,7 +41,7 @@ public class PaymentController {
         try {
             String sessionId = request.get("sessionId");
 
-            Stripe.apiKey = "sk_test_51PyunwGLTHhXTuKyPURcqUK8njY2lmQWKAUF0Tzl1pywVJx4qXLAlZVd8mykmTZByVN6spkT0gsLcnqThSGBYZsX00gqH4Jpie"; // Set your Stripe secret key
+            Stripe.apiKey = "sk_test_51PyunwGLTHhXTuKyPURcqUK8njY2lmQWKAUF0Tzl1pywVJx4qXLAlZVd8mykmTZByVN6spkT0gsLcnqThSGBYZsX00gqH4Jpie";
             if (sessionId == null || sessionId.isEmpty()) {
                 return ResponseEntity.badRequest().body("Missing sessionId in request");
             }
