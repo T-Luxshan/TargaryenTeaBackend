@@ -64,12 +64,6 @@ public class OrderService {
                 .uri("http://InventoryService/api/v1/inventory")
                 .bodyValue(inventoryRequests)
                 .retrieve()
-                .onStatus(HttpStatusCode::is4xxClientError,
-                        response -> response.bodyToMono(String.class)
-                                .flatMap(errorMessage -> Mono.error(new RuntimeException("Client Error: " + errorMessage))))
-                .onStatus(HttpStatusCode::is5xxServerError,
-                        response -> response.bodyToMono(String.class)
-                                .flatMap(errorMessage -> Mono.error(new RuntimeException("Server Error: " + errorMessage))))
                 .bodyToMono(InventoryResponse[].class)
                 .block();
 
