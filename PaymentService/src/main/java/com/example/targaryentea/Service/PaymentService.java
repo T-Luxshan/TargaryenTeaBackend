@@ -5,12 +5,12 @@ import com.example.targaryentea.DTO.StripeResponse;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -20,12 +20,17 @@ public class PaymentService {
     //-> return session id and url
     @Value("${stripe.secretKey}")
     private String secretkey;
+    private final KafkaTemplate kafkaTemplate;
 
-    public StripeResponse checkoutProducts(PaymentRequestDTO paymentRequest ) {
+    public PaymentService(KafkaTemplate kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public StripeResponse checkoutProducts(PaymentRequestDTO paymentRequest) throws StripeException {
         Stripe.apiKey = secretkey;
         // Getting from stripe JAR
         // Create Product Data
-        List<SessionCreateParams.LineItem> lineItems=new ArrayList<>();
+        List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
         for (ProductDTO product : paymentRequest.getProducts()) {
             SessionCreateParams.LineItem.PriceData.ProductData productData =
                     SessionCreateParams.LineItem.PriceData.ProductData.builder()
@@ -56,18 +61,45 @@ public class PaymentService {
                         .addAllowedCountry(SessionCreateParams.ShippingAddressCollection.AllowedCountry.SL)
                         .build();
 
-        // Create ShippingAddressCollection
-        SessionCreateParams params = SessionCreateParams.builder()
-                .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:3000/success")
-                .setCancelUrl("http://localhost:3000/reject")
-                .setShippingAddressCollection(shippingAddressCollection)
-                .addAllLineItem(lineItems)
-                .putMetadata("I agree with your terms of service", "true")
-                .build();
+//        // Create ShippingAddressCollection
+//        SessionCreateParams params = SessionCreateParams.builder()
+//                .setMode(SessionCreateParams.Mode.PAYMENT)
+//                .setSuccessUrl("http://localhost:3000/success")
+//                .setCancelUrl("http://localhost:3000/reject")
+//                .setShippingAddressCollection(shippingAddressCollection)
+//                .addAllLineItem(lineItems)
+//                .putMetadata("I agree with your terms of service", "true")
+//                .build();
 
+//        try {
+//            Session session = Session.create(params);
+//            return StripeResponse.builder()
+//                    .status("SUCCESS")
+//                    .message("Payment session created")
+//                    .sessionId(session.getId())
+//                    .sessionUrl(session.getUrl())
+//                    .build();
+//        } catch (StripeException ex) {
+//            ex.printStackTrace();
+//            return StripeResponse.builder()
+//                    .status("FAILED")
+//                    .message("Error creating payment session: " + ex.getMessage())
+//                    .build();
+//        }
         try {
+            SessionCreateParams params = SessionCreateParams.builder()
+                    .setMode(SessionCreateParams.Mode.PAYMENT)
+                    .setSuccessUrl("http://localhost:3000/success")
+                    .setCancelUrl("http://localhost:3000/reject")
+                    .addAllLineItem(lineItems)
+                    .build();
+
             Session session = Session.create(params);
+
+            // Publish message to Kafka upon successful payment session creation
+            String message = "Payment successful for sessionId: " + session.getId();
+            kafkaTemplate.send("payment-success-topic", message);
+
             return StripeResponse.builder()
                     .status("SUCCESS")
                     .message("Payment session created")
@@ -82,6 +114,6 @@ public class PaymentService {
                     .build();
         }
 
-    }
 
+    }
 }

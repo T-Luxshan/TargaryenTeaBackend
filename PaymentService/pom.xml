@@ -76,7 +76,10 @@
 			<artifactId>stripe-java</artifactId>
 			<version>21.13.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
 
 	</dependencies>
 
