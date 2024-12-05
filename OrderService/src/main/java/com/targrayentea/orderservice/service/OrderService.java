@@ -5,9 +5,11 @@ import com.targrayentea.orderservice.entity.Order;
 import com.targrayentea.orderservice.entity.OrderLineItems;
 import com.targrayentea.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -59,12 +61,22 @@ public class OrderService {
 
 //        Call inventory service, Place order only of product is in stock.
         InventoryResponse[] inventoryResponses =  webClientBuilder.build().post()
-                .uri("http://inventory-service/api/v1/inventory")
+                .uri("http://InventoryService/api/v1/inventory")
                 .bodyValue(inventoryRequests)
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        response -> response.bodyToMono(String.class)
+                                .flatMap(errorMessage -> Mono.error(new RuntimeException("Client Error: " + errorMessage))))
+                .onStatus(HttpStatusCode::is5xxServerError,
+                        response -> response.bodyToMono(String.class)
+                                .flatMap(errorMessage -> Mono.error(new RuntimeException("Server Error: " + errorMessage))))
                 .bodyToMono(InventoryResponse[].class)
                 .block();
 
+
+        if (inventoryResponses == null || inventoryResponses.length == 0) {
+            throw new RuntimeException("Inventory Service returned empty response");
+        }
         boolean allProductStock = Arrays.stream(inventoryResponses)
                 .allMatch(InventoryResponse::isInStock);
         if(allProductStock){
