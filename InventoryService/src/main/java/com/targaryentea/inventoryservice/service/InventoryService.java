@@ -32,6 +32,11 @@ public class InventoryService {
                             .filter(inv -> inv.getSkuCode().equals(inventoryRequest.getSkuCode()))
                             .findFirst()
                             .orElseThrow(() -> new IllegalArgumentException("SKU Code not found: " + inventoryRequest.getSkuCode()));
+                    boolean isInStock =inventory.getQuantity()>=inventoryRequest.getQuantity();
+                    if(isInStock){
+                        inventory.setQuantity(inventory.getQuantity()-inventoryRequest.getQuantity());
+                        inventoryRepository.save(inventory);
+                    }
                 return InventoryResponse.builder()
                         .skuCode(inventoryRequest.getSkuCode())
                         .isInStock(inventory.getQuantity() >= inventoryRequest.getQuantity())

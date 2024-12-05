@@ -75,6 +75,7 @@ public class OrderService {
                 .allMatch(InventoryResponse::isInStock);
         if(allProductStock){
             orderRepository.save(order);
+
             return OrderResponse.builder()
                     .status("success")
                     .message("Order placed successfully.")
