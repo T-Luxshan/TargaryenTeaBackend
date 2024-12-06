@@ -43,4 +43,8 @@ public class InventoryController {
     public ResponseEntity<String> findSkuCode(@RequestBody String productName){
         return ResponseEntity.ok(inventoryService.findSkuCode(productName));
     }
+    @PostMapping("/stock")
+    public ResponseEntity<Integer> getEachStock(@RequestBody String productName){
+        return ResponseEntity.ok(inventoryService.getEachStock(productName));
+    }
 }

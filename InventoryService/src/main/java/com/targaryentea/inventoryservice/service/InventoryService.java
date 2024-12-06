@@ -113,5 +113,10 @@ public class InventoryService {
         Inventory inventory = inventoryRepository.findByProductName(productName);
         return inventory != null ? inventory.getSkuCode() : null;
     }
+
+    public Integer getEachStock(String productName) {
+        Inventory inventory = inventoryRepository.findByProductName(productName);
+        return inventory != null ? inventory.getQuantity() : 0;
+    }
 }
 
