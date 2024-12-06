@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class InventoryRequest {
+public class NewProductInventoryRequest {
+    private String productName;
     private String skuCode;
     private Integer quantity;;
-
-
-
 
 }
