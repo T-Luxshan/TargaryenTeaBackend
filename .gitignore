@@ -1,0 +1,24 @@
+# Build artifacts
+/target
+
+# Maven-specific files
+.mvn/
+pom.xml.tag
+pom.xml.releaseBackup
+dependency-reduced-pom.xml
+release.properties
+
+# IDE-specific
+.idea/
+*.iml
+*.classpath
+*.project
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db'
+
+# Dependency directories
+node_modules/
+target/
