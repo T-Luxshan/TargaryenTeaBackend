@@ -1,21 +1,26 @@
 package com.targaryentea.productservice.service;
 
+import com.targaryentea.inventoryservice.dto.InventoryRequest;
+import com.targaryentea.inventoryservice.dto.NewProductInventoryRequest;
 import com.targaryentea.productservice.dto.ProductRequest;
 import com.targaryentea.productservice.entity.Product;
 import com.targaryentea.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final WebClient.Builder webClientBuilder;
 
     public String createProduct(ProductRequest productRequest) {
 
@@ -31,7 +36,26 @@ public class ProductService {
                     .image_url(productRequest.getImage_url())
                     .build();
             productRepository.save(product);
-            return "Product Created";
+        String skuCode = generateSkuCode(productRequest.getName());
+        NewProductInventoryRequest inventoryRequest = new NewProductInventoryRequest(productRequest.getName(),skuCode, productRequest.getStock());
+
+        try{
+            //Call inventory service, Place new order to stock.
+            webClientBuilder.build().post()
+                    .uri("http://InventoryService/api/v1/inventory/add")
+                    .bodyValue(inventoryRequest)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+            return "Product Added";
+        }catch(Exception e){
+         return "Product can not be  added in inventory service "+e.getMessage();
+        }
+    }
+    private String generateSkuCode(String name) {
+        int randomThreeDigits = 100 + (int) (Math.random() * 900);
+        return name.toLowerCase().replace(" ", "_") + "_" + randomThreeDigits;
+
     }
 
     public List<ProductRequest> getAllProducts() {

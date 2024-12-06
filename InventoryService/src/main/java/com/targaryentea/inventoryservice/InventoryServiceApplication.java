@@ -16,25 +16,25 @@ public class InventoryServiceApplication {
 		SpringApplication.run(InventoryServiceApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner loadData(InventoryRepository inventoryRepository){
-		return args -> {
-			Inventory cinnamon_tea = Inventory.builder()
-					.productName("Cinnamon Tea")
-					.skuCode("cinnamon_tea_0406")
-					.quantity(1200)
-					.build();
-
-			Inventory mint_tea = Inventory.builder()
-					.productName("Mint Tea")
-					.skuCode("mint_tea_0912")
-					.quantity(2000)
-					.build();
-
-			inventoryRepository.save(cinnamon_tea);
-			inventoryRepository.save(mint_tea);
-		};
-	}
+//	@Bean
+//	public CommandLineRunner loadData(InventoryRepository inventoryRepository){
+//		return args -> {
+//			Inventory cinnamon_tea = Inventory.builder()
+//					.productName("Cinnamon Tea")
+//					.skuCode("cinnamon_tea_0406")
+////					.quantity(1200)
+//					.build();
+//
+//			Inventory mint_tea = Inventory.builder()
+//					.productName("Mint Tea")
+//					.skuCode("mint_tea_0912")
+////					.quantity(2000)
+//					.build();
+//
+//			inventoryRepository.save(cinnamon_tea);
+//			inventoryRepository.save(mint_tea);
+//		};
+//	}
 
 
 

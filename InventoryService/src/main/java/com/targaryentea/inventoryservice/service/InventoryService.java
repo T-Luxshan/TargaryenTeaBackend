@@ -2,6 +2,7 @@ package com.targaryentea.inventoryservice.service;
 
 import com.targaryentea.inventoryservice.dto.InventoryRequest;
 import com.targaryentea.inventoryservice.dto.InventoryResponse;
+import com.targaryentea.inventoryservice.dto.NewProductInventoryRequest;
 import com.targaryentea.inventoryservice.entity.Inventory;
 import com.targaryentea.inventoryservice.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -52,4 +54,38 @@ public class InventoryService {
 //                           .build()
 //               ).toList();
     }
+
+    public boolean updateInventory(InventoryRequest inventoryRequest) {
+        Optional<Inventory> inventoryOptional = inventoryRepository.findBySkuCode(inventoryRequest.getSkuCode());
+        if (inventoryOptional.isPresent()) {
+            Inventory inventory = inventoryOptional.get();
+            inventory.setQuantity(inventory.getQuantity()+inventoryRequest.getQuantity());
+            inventoryRepository.save(inventory);
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean addNewInventory(NewProductInventoryRequest inventoryRequest) {
+        try {
+            boolean isEmpty =inventoryRepository.findBySkuCode(inventoryRequest.getSkuCode()).isEmpty();
+            if(isEmpty) {
+                Inventory inventory = new Inventory();
+                inventory.setSkuCode(inventoryRequest.getSkuCode());
+                inventory.setQuantity(inventoryRequest.getQuantity());
+                inventory.setProductName(inventoryRequest.getProductName());
+                inventoryRepository.save(inventory);
+
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
+
