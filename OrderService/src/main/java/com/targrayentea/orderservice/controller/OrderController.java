@@ -1,5 +1,6 @@
 package com.targrayentea.orderservice.controller;
 
+import com.targrayentea.orderservice.dto.BestSellingDTO;
 import com.targrayentea.orderservice.dto.OrderDTO;
 import com.targrayentea.orderservice.dto.OrderLineItemsDto;
 import com.targrayentea.orderservice.dto.OrderResponse;
@@ -15,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/order")
 @RequiredArgsConstructor
-
+@CrossOrigin("*")
 public class OrderController {
 
     private final OrderService orderService;
@@ -41,5 +42,11 @@ public class OrderController {
     @GetMapping
     public  ResponseEntity<List<OrderDTO>> getAllOrder(){
         return ResponseEntity.ok(orderService.getAllOrder());
+    }
+
+    //---------------BEst seller--------------
+    @GetMapping("/bestseller")
+    public ResponseEntity<List<BestSellingDTO>> getBestSellers(){
+        return ResponseEntity.ok(orderService.getBestSellers());
     }
 }

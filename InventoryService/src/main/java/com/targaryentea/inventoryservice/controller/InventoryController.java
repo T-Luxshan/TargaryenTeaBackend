@@ -47,4 +47,5 @@ public class InventoryController {
     public ResponseEntity<Integer> getEachStock(@RequestBody String productName){
         return ResponseEntity.ok(inventoryService.getEachStock(productName));
     }
+
 }

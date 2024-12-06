@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
 
+
     public OrderResponse placeOrder(OrderDTO orderDTO) {
 
         List<OrderLineItems> orderLineItems = orderDTO.getOrderLineItemsDtoList().stream()
@@ -36,11 +38,11 @@ public class OrderService {
         LocalDateTime now = LocalDateTime.now();
 
         Order order = Order.builder()
-            .orderNumber(UUID.randomUUID().toString())
-            .orderLineItemsList(orderLineItems)
-            .orderDate(now)
-            .userId(orderDTO.getUserId())
-            .build();
+                .orderNumber(UUID.randomUUID().toString())
+                .orderLineItemsList(orderLineItems)
+                .orderDate(now)
+                .userId(orderDTO.getUserId())
+                .build();
 
 //        List<String> skuCodes = order.getOrderLineItemsList()
 //                                .stream()
@@ -50,17 +52,17 @@ public class OrderService {
         List<InventoryRequest> inventoryRequests = order.getOrderLineItemsList()
                 .stream()
                 .map(OrderLineItems ->
-                    InventoryRequest.builder()
-                            .skuCode(OrderLineItems.getSkuCode())
-                            .quantity(OrderLineItems.getQuantity())
-                            .build()
+                        InventoryRequest.builder()
+                                .skuCode(OrderLineItems.getSkuCode())
+                                .quantity(OrderLineItems.getQuantity())
+                                .build()
 
                 )
                 .toList();
 
 
 //        Call inventory service, Place order only of product is in stock.
-        InventoryResponse[] inventoryResponses =  webClientBuilder.build().post()
+        InventoryResponse[] inventoryResponses = webClientBuilder.build().post()
                 .uri("http://InventoryService/api/v1/inventory")
                 .bodyValue(inventoryRequests)
                 .retrieve()
@@ -73,7 +75,7 @@ public class OrderService {
         }
         boolean allProductStock = Arrays.stream(inventoryResponses)
                 .allMatch(InventoryResponse::isInStock);
-        if(allProductStock){
+        if (allProductStock) {
             orderRepository.save(order);
 
             return OrderResponse.builder()
@@ -90,7 +92,6 @@ public class OrderService {
                     .estimatedDelivery(null)
                     .build();
         }
-
 
 
     }
@@ -122,7 +123,7 @@ public class OrderService {
         ArrayList<OrderLineItemsDto> orderLineItemsDtos = new ArrayList<>();
 
         OrderLineItemsDto orderLineItemsDto;
-        for (OrderLineItems orderLineItems: order.getOrderLineItemsList()) {
+        for (OrderLineItems orderLineItems : order.getOrderLineItemsList()) {
             orderLineItemsDto = OrderLineItemsDto.builder()
                     .id(orderLineItems.getId())
                     .skuCode(orderLineItems.getSkuCode())
@@ -140,8 +141,29 @@ public class OrderService {
                 .orderLineItemsDtoList(orderLineItemsDtos)
                 .build();
     }
+    //---------------Best seller--------------
+    public List<BestSellingDTO>  getBestSellers() {
+        List<Object[]> salesData = orderRepository.getBestSellers();
+        return salesData.stream()
+                .map(data -> {
+                    String productName = (String) data[0]; // Product name
+                    BestSellingDTO priceDetail = webClientBuilder.build()
+                            .post()
+                            .uri("http://ProductService/api/v1/product/bestseller")
+                            .bodyValue(productName)
+                            .retrieve()
+                            .bodyToMono(BestSellingDTO.class)
+                            .block();
 
+                    return BestSellingDTO.builder()
+                            .productName(productName)
+                            .image_url(priceDetail.getImage_url())
+                            .price(priceDetail.getPrice())
 
+                            .build();
+                })
+                .collect(Collectors.toList());
+    }
 
+    }
 
-}

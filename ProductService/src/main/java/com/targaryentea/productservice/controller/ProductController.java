@@ -2,6 +2,7 @@ package com.targaryentea.productservice.controller;
 
 import com.targaryentea.productservice.dto.ProductRequest;
 import com.targaryentea.productservice.service.ProductService;
+import com.targrayentea.orderservice.dto.BestSellingDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/product")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ProductController {
 
     @Autowired
@@ -38,4 +40,9 @@ public class ProductController {
     public ResponseEntity<ProductRequest> getProductById(@PathVariable Long id){
         return ResponseEntity.ok(productService.getProductById(id));
     }
+    @PostMapping("/bestseller")
+    public ResponseEntity<BestSellingDTO> getProductPrice(@RequestBody String productName){
+        return ResponseEntity.ok(productService.getProductPrice(productName));
+    }
+
 }

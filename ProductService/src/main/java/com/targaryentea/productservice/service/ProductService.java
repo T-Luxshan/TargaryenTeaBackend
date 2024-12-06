@@ -6,16 +6,15 @@ import com.targaryentea.productservice.dto.ProductRequest;
 import com.targaryentea.productservice.dto.ProductResponse;
 import com.targaryentea.productservice.entity.Product;
 import com.targaryentea.productservice.repository.ProductRepository;
+import com.targrayentea.orderservice.dto.BestSellingDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -168,6 +167,20 @@ public class ProductService {
 
         }
         return new ProductRequest();
+
+    }
+
+    public BestSellingDTO getProductPrice(String productName) {
+         List<Product> products=productRepository.findByName(productName);
+        Product maxIdProduct = products.stream()
+                .max(Comparator.comparingLong(Product::getId))
+                .orElseThrow(() -> new RuntimeException("No products found with the given name"));
+
+        return BestSellingDTO.builder()
+                .productName(maxIdProduct.getName()) // Assuming Product has a `getName()` method
+                .price(BigDecimal.valueOf(maxIdProduct.getPrice())) // Assuming price is a Double
+                .image_url(maxIdProduct.getImage_url())
+                .build();
 
     }
 }
