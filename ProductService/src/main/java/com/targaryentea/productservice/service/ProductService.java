@@ -24,10 +24,11 @@ public class ProductService {
 
     public String createProduct(ProductRequest productRequest) {
 
-        if(productRepository.existsByName(productRequest.getName())){
-            throw new IllegalArgumentException("Product with the same name already exists");
-
-        }
+//        if(productRepository.existsByName(productRequest.getName())){
+//            throw new IllegalArgumentException("Product with the same name already exists");
+//
+//        }
+        boolean isAvailable=productRepository.existsByName(productRequest.getName());
             Product product = Product.builder()
                     .name(productRequest.getName())
                     .description(productRequest.getDescription())
@@ -36,21 +37,52 @@ public class ProductService {
                     .image_url(productRequest.getImage_url())
                     .build();
             productRepository.save(product);
-        String skuCode = generateSkuCode(productRequest.getName());
-        NewProductInventoryRequest inventoryRequest = new NewProductInventoryRequest(productRequest.getName(),skuCode, productRequest.getStock());
 
-        try{
-            //Call inventory service, Place new order to stock.
-            webClientBuilder.build().post()
-                    .uri("http://InventoryService/api/v1/inventory/add")
-                    .bodyValue(inventoryRequest)
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
-            return "Product Added";
-        }catch(Exception e){
-         return "Product can not be  added in inventory service "+e.getMessage();
-        }
+
+            if(isAvailable){
+                try{
+                    //Call inventory service, Place new order to stock.
+                    String skuCode=webClientBuilder.build().post()
+                            .uri("http://InventoryService/api/v1/inventory/sku")
+                            .bodyValue(product.getName())
+                            .retrieve()
+                            .bodyToMono(String.class)
+                            .block();
+                    NewProductInventoryRequest inventoryRequest = new NewProductInventoryRequest(productRequest.getName(),skuCode, productRequest.getStock());
+
+                    try{
+                        //Call inventory service, Place new order to stock.
+                        webClientBuilder.build().put()
+                                .uri("http://InventoryService/api/v1/inventory")
+                                .bodyValue(inventoryRequest)
+                                .retrieve()
+                                .bodyToMono(String.class)
+                                .block();
+                        return "Product Updated";
+                    }catch(Exception e){
+                        return "Product can not be  Updated in inventory service "+e.getMessage();
+                    }
+
+                }catch(Exception e){
+                    return "Product can not be  found in inventory service "+e.getMessage();
+                }
+            }else{
+                String skuCode = generateSkuCode(productRequest.getName());
+                NewProductInventoryRequest inventoryRequest = new NewProductInventoryRequest(productRequest.getName(),skuCode, productRequest.getStock());
+                try{
+                    //Call inventory service, Place new order to stock.
+                    webClientBuilder.build().post()
+                            .uri("http://InventoryService/api/v1/inventory/add")
+                            .bodyValue(inventoryRequest)
+                            .retrieve()
+                            .bodyToMono(String.class)
+                            .block();
+                    return "Product Added";
+                }catch(Exception e){
+                    return "Product can not be  added in inventory service "+e.getMessage();
+                }
+            }
+
     }
     private String generateSkuCode(String name) {
         int randomThreeDigits = 100 + (int) (Math.random() * 900);
@@ -80,8 +112,9 @@ public class ProductService {
 
     public String deleteProduct(Long id) {
         productRepository.deleteById(id);
-        return "Product deleted";
-    }
+        return " deleted Successfully";
+        }
+
 
     public ProductRequest getProductById(Long id) {
         Optional<Product> productTemp = productRepository.findById(id);

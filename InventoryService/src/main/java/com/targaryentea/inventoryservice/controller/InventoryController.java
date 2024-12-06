@@ -39,4 +39,8 @@ public class InventoryController {
         else
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add inventory");
     }
+    @PostMapping("/sku")
+    public ResponseEntity<String> findSkuCode(@RequestBody String productName){
+        return ResponseEntity.ok(inventoryService.findSkuCode(productName));
+    }
 }

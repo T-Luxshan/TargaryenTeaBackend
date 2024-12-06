@@ -18,7 +18,8 @@ public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
 
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
+
     public List<InventoryResponse> isInStock(List<InventoryRequest> inventoryRequests) {
         // Extract SKU codes from inventoryRequests
         List<String> skuCodes = inventoryRequests.stream()
@@ -27,18 +28,38 @@ public class InventoryService {
 
         // Fetch inventory for the given SKU codes
         List<Inventory> inventories = inventoryRepository.findBySkuCodeIn(skuCodes);
+        boolean allInStock = inventoryRequests.stream()
+                .allMatch(inventoryRequest -> {
+                    Inventory inventory = inventories.stream()
+                            .filter(inv -> inv.getSkuCode().equals(inventoryRequest.getSkuCode()))
+                            .findFirst()
+                            .orElseThrow(() -> new IllegalArgumentException("SKU Code not found: " + inventoryRequest.getSkuCode()));
+                    return inventory.getQuantity() >= inventoryRequest.getQuantity();
+                });
 
+        // If all items are in stock, decrement the quantities
+        if (allInStock) {
+            inventoryRequests.forEach(inventoryRequest -> {
+                Inventory inventory = inventories.stream()
+                        .filter(inv -> inv.getSkuCode().equals(inventoryRequest.getSkuCode()))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalArgumentException("SKU Code not found: " + inventoryRequest.getSkuCode()));
+                inventory.setQuantity(inventory.getQuantity() - inventoryRequest.getQuantity());
+                inventoryRepository.save(inventory); // Save updated inventory
+            });
+        }
         return inventoryRequests.stream()
                 .map(inventoryRequest -> {
                     Inventory inventory = inventories.stream()
                             .filter(inv -> inv.getSkuCode().equals(inventoryRequest.getSkuCode()))
                             .findFirst()
                             .orElseThrow(() -> new IllegalArgumentException("SKU Code not found: " + inventoryRequest.getSkuCode()));
-                    boolean isInStock =inventory.getQuantity()>=inventoryRequest.getQuantity();
-                    if(isInStock){
-                        inventory.setQuantity(inventory.getQuantity()-inventoryRequest.getQuantity());
-                        inventoryRepository.save(inventory);
-                    }
+//                    boolean isInStock =inventory.getQuantity()>=inventoryRequest.getQuantity();
+//                    if(isInStock){
+//                        inventory.setQuantity(inventory.getQuantity()-inventoryRequest.getQuantity());
+//                        inventoryRepository.save(inventory);
+//                    }
+
                 return InventoryResponse.builder()
                         .skuCode(inventoryRequest.getSkuCode())
                         .isInStock(inventory.getQuantity() >= inventoryRequest.getQuantity())
@@ -86,6 +107,11 @@ public class InventoryService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public String findSkuCode(String productName) {
+        Inventory inventory = inventoryRepository.findByProductName(productName);
+        return inventory != null ? inventory.getSkuCode() : null;
     }
 }
 
