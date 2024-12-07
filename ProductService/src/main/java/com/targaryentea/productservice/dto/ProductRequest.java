@@ -1,11 +1,14 @@
 package com.targaryentea.productservice.dto;
 
+import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import jakarta.validation.constraints.NotBlank;
 
 @AllArgsConstructor
@@ -32,4 +35,5 @@ public class ProductRequest implements Serializable {
 
     @NotBlank(message = "Image URL is required")
     private String image_url;
+
 }

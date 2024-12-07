@@ -5,13 +5,15 @@ import com.targaryentea.productservice.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
-@RequestMapping("/api/v1/product")
+@RequestMapping("api/v1/product")
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -19,10 +21,10 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<String> createProduct(@Valid @RequestBody ProductRequest productRequest){
-        return ResponseEntity.ok(productService.createProduct(productRequest));
-    }
+    public ResponseEntity<String> createProduct(@Valid @RequestBody ProductRequest productRequest) {
+            return ResponseEntity.ok(productService.createProduct(productRequest));
 
+    }
     @GetMapping
     public ResponseEntity<List<ProductRequest>> getAllProducts(){
         return ResponseEntity.ok(productService.getAllProducts());
