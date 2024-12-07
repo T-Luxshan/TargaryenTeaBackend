@@ -1,5 +1,6 @@
 package com.targaryentea.productservice.controller;
 
+import com.targaryentea.productservice.dto.ProductDTO;
 import com.targaryentea.productservice.dto.ProductRequest;
 import com.targaryentea.productservice.service.ProductService;
 import com.targrayentea.orderservice.dto.BestSellingDTO;
@@ -37,7 +38,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductRequest> getProductById(@PathVariable Long id){
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id){
         return ResponseEntity.ok(productService.getProductById(id));
     }
     @PostMapping("/bestseller")

@@ -2,6 +2,7 @@ package com.targaryentea.productservice.service;
 
 import com.targaryentea.inventoryservice.dto.InventoryRequest;
 import com.targaryentea.inventoryservice.dto.NewProductInventoryRequest;
+import com.targaryentea.productservice.dto.ProductDTO;
 import com.targaryentea.productservice.dto.ProductRequest;
 import com.targaryentea.productservice.dto.ProductResponse;
 import com.targaryentea.productservice.entity.Product;
@@ -141,7 +142,7 @@ public class ProductService {
         }
 
 
-    public ProductRequest getProductById(Long id) {
+    public ProductDTO getProductById(Long id) {
         Optional<Product> productTemp = productRepository.findById(id);
         if(productTemp.isPresent()){
             try {
@@ -152,21 +153,28 @@ public class ProductService {
                         .retrieve()
                         .bodyToMono(Integer.class)
                         .block();
+                String sku_code = webClientBuilder.build().post()
+                        .uri("http://InventoryService/api/v1/inventory/sku")
+                        .bodyValue(productTemp.get().getName())
+                        .retrieve()
+                        .bodyToMono(String.class)
+                        .block();
                 Product product = productTemp.get();
-                return ProductRequest.builder()
+                return ProductDTO.builder()
                         .id(product.getId())
                         .name(product.getName())
                         .description(product.getDescription())
                         .price(product.getPrice())
                         .stock(stock)
                         .image_url(product.getImage_url())
+                        .Sku_code(sku_code)
                         .build();
             }catch (Exception e){
                 throw new RuntimeException("Error fetching stock for product ID " + id + ": " + e.getMessage(), e);
             }
 
         }
-        return new ProductRequest();
+        return new ProductDTO();
 
     }
 
