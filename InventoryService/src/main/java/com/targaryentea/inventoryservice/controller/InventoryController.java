@@ -21,4 +21,6 @@ public class InventoryController {
     public ResponseEntity<List<InventoryResponse>> isInStock(@RequestBody List<InventoryRequest> inventoryRequests){
         return ResponseEntity.ok(inventoryService.isInStock(inventoryRequests));
     }
+//    ToDo: Add isInStock method for check single item.
+
 }
